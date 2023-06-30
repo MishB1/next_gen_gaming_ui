@@ -26,7 +26,8 @@ class NextGenApp extends StatelessWidget {
     return MaterialApp(
       themeMode: ThemeMode.dark,
       darkTheme: ThemeData(brightness: Brightness.dark),
-      home: const TitleScreen(),                          // Replace with this widget
+      home: const TitleScreen(),      
+      debugShowCheckedModeBanner: false,                    // Replace with this widget
     );
   }
 }
