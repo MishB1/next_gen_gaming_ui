@@ -43,7 +43,17 @@ class TitleScreenUi extends StatelessWidget {
                 onDifficultyFocused: onDifficultyFocused,
               ),
             ),
-          ),                                           
+          ),
+          /// StartBtn
+          BottomRight(                                    // Add from here...
+            child: UiScaler(
+              alignment: Alignment.bottomRight,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 20, right: 40),
+                child: _StartBtn(onPressed: () {}),
+              ),
+            ),
+          ),                                                             
         ],
       ),
     );
@@ -175,6 +185,58 @@ class _DifficultyBtn extends StatelessWidget {
                 ),
               ],
             ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _StartBtn extends StatefulWidget {
+  const _StartBtn({required this.onPressed});
+  final VoidCallback onPressed;
+
+  @override
+  State<_StartBtn> createState() => _StartBtnState();
+}
+
+class _StartBtnState extends State<_StartBtn> {
+  AnimationController? _btnAnim;
+  bool _wasHovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return FocusableControlBuilder(
+      cursor: SystemMouseCursors.click,
+      onPressed: widget.onPressed,
+      builder: (_, state) {
+        if ((state.isHovered || state.isFocused) &&
+            !_wasHovered &&
+            _btnAnim?.status != AnimationStatus.forward) {
+          _btnAnim?.forward(from: 0);
+        }
+        _wasHovered = (state.isHovered || state.isFocused);
+        return SizedBox(
+          width: 520,
+          height: 100,
+          child: Stack(
+            children: [
+              Positioned.fill(child: Image.asset(AssetPaths.titleStartBtn)),
+              if (state.isHovered || state.isFocused) ...[
+                Positioned.fill(
+                    child: Image.asset(AssetPaths.titleStartBtnHover)),
+              ],
+              Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text('START MISSION',
+                        style: TextStyles.btn
+                            .copyWith(fontSize: 24, letterSpacing: 18)),
+                  ],
+                ),
+              ),
+            ],
           ),
         );
       },
